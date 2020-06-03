@@ -15,6 +15,14 @@ def load_file(file_name):
   return content # return the content
 
 
+# write a note to the notes line - simply add a new line to the file
+def add_note_to_file(note):
+  f = open('notes_database.txt', 'a') # open the file in append mode
+  f.write(note) # write the note to the file
+  f.write('\n') # add a new line after the note is written to the database file
+  f.close() # close the file
+
+
 # the Flask function that serves '/'
 @app.route('/')
 def index():
@@ -25,6 +33,10 @@ def index():
 # the Flask function that serves '/add_note'
 @app.route('/add_note')
 def add_note():
+  note_text = flask.request.args.get('note') # process the html get request
+  if note_text: # if there is a request for adding a new note
+    add_note_to_file(note_text) # append a new line to the notes database file
+
   index_html = load_file('index.html') # load the file index.html
 
   add_note_html = load_file('templates/add_note.html') # load the file templates/add_note.html
