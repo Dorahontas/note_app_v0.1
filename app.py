@@ -95,8 +95,10 @@ def search_notes():
   notes = load_file('notes_database.txt') # load all the notes from the notes_database.txt file
   notes = notes.split('\n') # split the notes into a list of individual notes (the separator is '\n')
 
+  search_notes_html = load_file('templates/search_notes.html') # load the file templates/search_notes.html
+
   notes_found_html = '' # create an empty string where all the found notes formatted in html will be stored
-  if search_text: # proceed only if the search_text is not empty
+  if search_text: # proceed only if the search_text is not empty (there is a search request from the user)
     for note in notes: # iterate through all the notes
       note = note.split('##')
       if search_text.lower() in note[0].lower(): # if the searched text is in the note (case insensitive search)
@@ -104,7 +106,14 @@ def search_notes():
         aux = aux.replace('## DATE ##', note[1])
         notes_found_html = notes_found_html + aux + '<br>'
 
-  search_notes_html = load_file('templates/search_notes.html') # load the file templates/search_notes.html
+    if notes_found_html == '': # in case no notes are found
+      search_notes_html = search_notes_html.replace('## NOTES_FOUND_STATUS ##', 'No notes found!') # display a message to the user
+    else:
+      search_notes_html = search_notes_html.replace('## NOTES_FOUND_STATUS ##', '') # set the NOTES_FOUND_STATUS to empty string, because there are results
+
+  else: # no search request from the user
+    search_notes_html = search_notes_html.replace('## NOTES_FOUND_STATUS ##', '') # set the NOTES_FOUND_STATUS to empty string
+
   search_notes_html = search_notes_html.replace('## NOTES_FOUND_HTML ##', notes_found_html)
 
   index_html = load_file('index.html') # load the file index.html
