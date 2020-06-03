@@ -16,6 +16,12 @@ def load_file(file_name):
 
 
 # write a note to the notes line - simply add a new line to the file
+def add_text_to_file(file_name, text):
+  f = open(file_name, 'a') # open the file in append mode
+  f.write(text) # write the text to the file
+  f.write('\n') # add a new line after the text is written to the file
+  f.close() # close the file
+
 def add_note_to_file(note):
   f = open('notes_database.txt', 'a') # open the file in append mode
   f.write(note) # write the note to the file
@@ -35,7 +41,7 @@ def index():
 def add_note():
   note_text = flask.request.args.get('note') # process the html get request
   if note_text: # if there is a request for adding a new note
-    add_note_to_file(note_text) # append a new line to the notes database file
+    add_text_to_file('notes_database.txt', note_text) # append a new line to the notes database file
 
   index_html = load_file('index.html') # load the file index.html
 
@@ -96,6 +102,44 @@ def search_notes():
   index_html = index_html.replace('## INDEX_HTML ##', search_notes_html)
 
   return index_html # serve /search_notes
+
+
+# the Flask function that serves '/comments'
+@app.route('/comments')
+def comments():
+  comment_text = flask.request.args.get('comment') # process the html get request
+  comment_type = flask.request.args.get('comment_type') # process the html get request
+
+  if comment_text and comment_type:
+    comment_with_type = comment_type + '##' + comment_text
+    add_text_to_file('comments_database.txt', comment_with_type)
+
+  comment_positive_html = load_file('templates/comment_positive.html') # load the file templates/comment_positive.html
+  comment_negative_html = load_file('templates/comment_negative.html') # load the file templates/comment_negative.html
+
+  comments = load_file('comments_database.txt') # load all the comments from the comments_database.txt file
+  comments = comments.split('\n') # split the comments into a list of individual comments (the separator is '\n')
+
+  comments_html = '' # create an empty string where all the comments formatted in html will be added
+  for comment in comments: # iterate through all the notes loaded from the datebase file
+    if comment != '':
+      comment = comment.split('##') # split the type (positive or negative) and the text
+      if comment[0] == 'positive': # in case of positive comment add a positive comment
+        # append the properly formatted positive comment to the comments_html valriable
+        comments_html = comments_html + comment_positive_html.replace('## COMMENT_TEXT ##', comment[1]) + '<br>'
+      if comment[0] == 'negative': # in case of negative comment add a negative comment
+        # append the properly formatted negative comment to the comments_html valriable
+        comments_html = comments_html + comment_negative_html.replace('## COMMENT_TEXT ##', comment[1]) + '<br>'
+
+  all_comments_html = load_file('templates/comments.html') # load the file templates/all_notes.html
+  all_comments_html = all_comments_html.replace('## COMMENTS_HTML ##', comments_html) # insert the comments in html format to the template comments page
+
+  index_html = load_file('index.html') # load the file index.html
+
+  # replace '## INDEX_HTML ##' with the content of templates/add_note_html
+  index_html = index_html.replace('## INDEX_HTML ##', all_comments_html) # insert the all_notes (the all the notes in it) to the index page
+
+  return index_html # serve /all_notes
 
 
 if __name__ == '__main__':

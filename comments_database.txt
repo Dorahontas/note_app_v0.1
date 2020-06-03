@@ -1,0 +1,8 @@
+positive##Curabitur ut nulla pulvinar, blandit mauris sollicitudin, fermentum justo.
+positive##Quisque lorem purus, gravida et vestibulum eget, tristique quis velit. Maecenas non velit ac neque aliquam ornare.
+negative##Donec libero mi, iaculis sed fringilla sed, varius sed dui.
+positive##Vestibulum efficitur pretium sapien non euismod.
+positive##Nulla molestie orci vitae orci suscipit, vitae viverra lorem placerat.
+negative##Integer sollicitudin feugiat magna.
+positive##Vivamus scelerisque nunc nulla, in sollicitudin quam viverra eu.
+positive##Fusce tincidunt mi id porttitor ullamcorper.
