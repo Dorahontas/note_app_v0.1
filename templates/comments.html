@@ -12,18 +12,17 @@
     <a class="nav-link active" href="/comments">Comments</a>
   </li>
 </ul>
-<hr>
+<br>
 
 <form action="/comments" method="get">
   <div class="form-group">
-    <label for="comment">Leave a comment (positive or negative):</label>
-    <textarea class="form-control" rows="3" name="comment"></textarea>
+    <textarea class="form-control" rows="3" placeholder="Leave a comment (positive or negative) " name="comment"></textarea>
   </div>
   <button type="submit" name="comment_type" value="positive" class="btn btn-success">Positive</button>
   <button type="submit" name="comment_type" value="negative" class="btn btn-danger">Negative</button>
 </form>
-<hr>
 
 <div>
+  <br><br>
   ## COMMENTS_HTML ##
 </div>
