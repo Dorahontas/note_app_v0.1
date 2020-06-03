@@ -1,0 +1,21 @@
+<ul class="nav nav-pills justify-content-center">
+  <li class="nav-item">
+    <a class="nav-link active" href="/add_note">Add a note</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/all_notes">View all notes</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/search_notes">Search</a>
+  </li>
+</ul>
+<hr>
+
+<form action="/add_note" method="get">
+  <div class="form-group">
+    <br>
+    <label for="comment">Add a note:</label>
+    <textarea class="form-control" rows="3" name="note"></textarea>
+  </div>
+  <button type="submit" class="btn btn-primary">Add note</button>
+</form>

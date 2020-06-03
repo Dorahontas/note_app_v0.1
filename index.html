@@ -12,15 +12,18 @@
   </head>
 
 <body>
-  <div id="registration" class="container text-center">
-    <h1>Please register first</h1>
-    <hr>
-    <input type="text" id="register_input" name="username">
-    <input type="submit" id="register" value="Register me">
-    <hr>
+  <div id="registration" class="container text-center" hidden>
+  <h1>Please register first</h1>
+  <hr>
+  <form class="form-inline" action="/add_note">
+    <label class="mb-2 mr-sm-2">Username: </label>
+    <input type="text" class="form-control mb-2 mr-sm-2" id="register_input" placeholder="Pick a username">
+    <button type="submit" id="register_button" class="btn btn-primary mb-2">Register</button>
+  </form>
   </div>
 
-  <div id="hello" class="container">
+
+  <div id="hello" class="container" hidden>
     <div class="text-center">
       <h1 id="username">Hello</h1>
       <hr>
