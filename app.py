@@ -54,11 +54,11 @@ def all_notes():
   notes = load_file('notes_database.txt') # load all the notes from the notes_database.txt file
   notes = notes.split('\n') # split the notes into a list of individual notes (the separator is '\n')
 
-  notes_html = '' # create and empty string where all the notes formatted in html will be added
+  notes_html = '' # create an empty string where all the notes formatted in html will be added
   for note in notes: # iterate through all the notes loaded from the datebase file
     if note != '': # process the note only if it's not empty
-      notes_html += note_html.replace('## NOTE_TEXT ##', note) # format the text of the note in html and add it to the result notes_html
-      notes_html += '<br>' # add a horizontal break after every note
+      notes_html = notes_html + note_html.replace('## NOTE_TEXT ##', note) # format the text of the note in html and add it to the result notes_html
+      notes_html = notes_html + '<br>' # add a horizontal break after every note
 
   all_notes_html = load_file('templates/all_notes.html') # load the file templates/all_notes.html
   all_notes_html = all_notes_html.replace('## ALL_NOTES_HTML ##', notes_html) # insert the notes in html format to the template all_notes page
@@ -74,8 +74,21 @@ def all_notes():
 # the Flask function that serves '/search_notes'
 @app.route('/search_notes')
 def search_notes():
+  search_text = flask.request.args.get('search') # process the html get request
+
+  note_html = load_file('templates/note.html') # load the file templates/note.html
+  notes = load_file('notes_database.txt') # load all the notes from the notes_database.txt file
+  notes = notes.split('\n') # split the notes into a list of individual notes (the separator is '\n')
+
+  notes_found_html = '' # create an empty string where all the found notes formatted in html will be stored
+  if search_text: # proceed only if the search_text is not empty
+    for note in notes: # iterate through all the notes
+      if search_text.lower() in note.lower(): # if the searched text is in the note (case insensitive search)
+        # append the note_html with the NOTE_TEXT properly replaced to the notes_found_html
+        notes_found_html = notes_found_html + note_html.replace('## NOTE_TEXT ##', note) + '<br>'
+
   search_notes_html = load_file('templates/search_notes.html') # load the file templates/search_notes.html
-  search_notes_html = search_notes_html.replace('## FOUND_NOTES_HTML ##', '<p>No notes found.</p>')
+  search_notes_html = search_notes_html.replace('## NOTES_FOUND_HTML ##', notes_found_html)
 
   index_html = load_file('index.html') # load the file index.html
 
